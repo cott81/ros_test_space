@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<smile version="1.0" id="Network2" numsamples="1000" discsamples="10000">
+	<nodes>
+		<cpt id="A">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="B">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.6351775314540262 0.3648224685459737</probabilities>
+		</cpt>
+		<cpt id="C">
+			<state id="State0" />
+			<state id="State1" />
+			<parents>A B</parents>
+			<probabilities>0.4814290041229313 0.5185709958770689 0.5224006274659163 0.4775993725340836 0.6802327702455563 0.3197672297544438 0.5273600072971346 0.4726399927028652</probabilities>
+		</cpt>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="SMILE Feb 29 2012" name="Network2" faultnameformat="nodestate">
+			<node id="A">
+				<name>A</name>
+				<interior color="ffffff" />
+				<outline color="000080" />
+				<font color="000000" name="MS Sans Serif" size="8" />
+				<position>132 122 168 158</position>
+			</node>
+			<node id="B">
+				<name>B</name>
+				<interior color="ffffff" />
+				<outline color="000080" />
+				<font color="000000" name="MS Sans Serif" size="8" />
+				<position>224 122 260 158</position>
+			</node>
+			<node id="C">
+				<name>C</name>
+				<interior color="ffffff" />
+				<outline color="000080" />
+				<font color="000000" name="MS Sans Serif" size="8" />
+				<position>178 208 214 244</position>
+			</node>
+		</genie>
+	</extensions>
+</smile>

@@ -1,0 +1,131 @@
+FROM Forum thread "API Documentation for Dynamic BNs"
+
+1) Basic scenario - setting temporal evidence, performing inference in dynamic network, reading the beliefs
+If the network has already the required structure and parameters (for example, was modeled in GeNIe and loaded from .xdsl file), then it's enough to call DSL_network::UpdateBeliefs - in other words, there's no special DBN update method. DSL_network::UpdateBeliefs will detect the presence of temporal nodes, and will internally create the temporary, unrolled network. Normal Bayesian updating will be performed on this object and results will be copied to the original DBN.
+
+The beliefs are stored in DSL_beliefVector objects as two-dimensional matrices. First dimension represents slice, second is for node outcomes. For example, if slice count is 20 and node has 3 outcomes, the value matrix will be 20 x 3.
+
+To set the temporal evidence, call DSL_nodeValue::SetTemporalEvidence.
+
+
+
+2) The temporal structure and parameters of the network
+The following DBN-related data is stored in the network:
+
+a) slice count, which is per-network setting. Use DSL_network::GetNumberOfSlices/SetNumberOfSlices to read or change it. During unroll to static network, the plate nodes are copied multiple times into groups called slices.
+
+b) temporal type of the node. Nodes can be normal, anchor, terminal or plate. Only plate nodes can participate in temporal relationships. The temporal type of node also determines how the non-temporal arcs linking node with plate nodes are handled during unroll. The global dsl_temporalType enumeration contains the identifiers of temporal types
+
+c) temporal arcs. The temporal arc connects two plate nodes and has an property called 'order'. The order of an arc is positive integer, which determines the relationships between location of parent and child in the unrolled network. The child node is 'order' slices ahead of the parent.
+
+d) temporal definition for the plate nodes, used to initialize the nodes in unrolled network. Depending on the node type, it may be CPT, truth table or set of noisy parameters. There's one set of parameters for each unique order of the incoming temporal arcs. For example, if node has four incoming arcs of orders 1,2,2,4, then it'll have three temporal definitions (orders 1,2,4).
+
+e) temporal evidence for the plate nodes, stored per-slice basis.
+
+f) temporal beliefs for the plate nodes, updated automatically by DSL_network::UpdateBeliefs. As described above, these are represented by 2-dimensional matrices.
+
+
+DSL_network::Unroll may be used to create the unrolled, static network based on the DBN. This method is included just as a explanatory/debug tool - it's not necessary to call it explicitly in order to get the beliefs in DBN.
+
+
+
+3) Additional consistency rules for non-temporal arcs
+To ensure the correctness of the unrolled network, the following non-temporal arcs are forbidden (DSL_network::AddTemporalArc will return error code if an attempt is made to create such arcs)
+
+a) between plate and normal nodes
+b) between plate and anchor nodes
+c) between terminal and plate nodes
+d) between terminal and normal nodes
+e) between terminal and anchor nodes
+
+
+
+4) Reference
+
+Globals:
+
+dsl_temporalType
+dsl_normalNode (default)
+dsl_anchorNode
+dsl_terminalNode
+dsl_plateNode
+
+----------------
+
+DSL_network:
+
+dsl_temporalType GetTemporalType(int node) const;
+int SetTemporalType(int node, dsl_temporalType newType);
+
+int SetNumberOfSlices(int slices);
+int GetNumberOfSlices() const;
+
+int GetMaxTemporalOrder() const;
+int GetMaxTemporalOrder(int node) const;
+
+bool TemporalArcExists(int parent, int child, int order) const;
+int AddTemporalArc(int parent, int child, int order);
+int RemoveTemporalArc(int parent, int child, int order);
+
+int GetTemporalOrders(int node, DSL_intArray &orders) const;
+int GetTemporalChildren(int node, std::vector<std::pair<int, int> > &children) const;
+int GetTemporalParents(int node, int order, DSL_intArray &parents) const;
+int GetUnrolledParents(int node, int order, std::vector<std::pair<int, int> > &parents) const;
+int GetUnrolledParents(int node, std::vector<std::pair<int, int> > &parents) const;
+
+int UnrollNetwork(DSL_network &unrolled, std::vector<int> &unrollMap) const;
+
+----------------
+
+DSL_beliefVector:
+
+(accessing elements - two dimensions)
+
+bool HasTemporalEvidence() const;
+bool IsTemporalEvidence(int slice) const;
+int GetTemporalEvidence(int slice) const;
+int SetTemporalEvidence(int slice, int evidence);
+int ClearTemporalEvidence(int slice);
+
+
+----------------
+
+DSL_cpt:
+
+const DSL_Dmatrix* GetTemporalProbabilities(int order) const;
+int SetTemporalProbabilities(int order, const DSL_Dmatrix &probs);
+int SetTemporalProbabilities(int order, const DSL_doubleArray &probs);
+
+----------------
+
+DSL_truthTable:
+
+int GetTemporalResultingStates(int order, DSL_intArray &states) const;
+int SetTemporalResultingStates(int order, const DSL_intArray &states);
+int SetTemporalResultingStates(int order, const int* states);
+
+----------------
+
+DSL_ciDefinition (base class for DSL_noisyMAX and DSL_noisyAdder)
+
+const DSL_Dmatrix* GetTemporalCiWeights(int order) const;
+int SetTemporalCiWeights(int order, const DSL_Dmatrix& weights);
+
+----------------
+
+DSL_noisyMAX:
+
+int GetTemporalParentOutcomeStrengths(int order, std::vector<DSL_intArray>& strengths) const;
+int SetTemporalParentOutcomeStrengths(int order, const std::vector<DSL_intArray>& strengths);
+
+
+----------------
+
+DSL_noisyAdder:
+
+int GetTemporalFunction(int order, Function &val) const;
+int SetTemporalFunction(int order, Function val);
+int GetTemporalDistinguishedState(int order) const;
+int SetTemporalDistinguishedState(int order, int state);
+int GetTemporalParentInfo(int order, DSL_doubleArray &weights, DSL_intArray &distStates) const;
+nt SetTemporalParentInfo(int order, const DSL_doubleArray &weights, const DSL_intArray &distStates); 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<smile version="1.0" id="Network1" numsamples="1000" discsamples="10000">
+	<nodes>
+		<cpt id="A" dynamic="plate">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.7 0.3</probabilities>
+		</cpt>
+		<cpt id="B" dynamic="plate">
+			<state id="State0" />
+			<state id="State1" />
+			<parents>A</parents>
+			<probabilities>0.2 0.8 0.52 0.48</probabilities>
+		</cpt>
+		<cpt id="C" dynamic="plate">
+			<state id="State0" />
+			<state id="State1" />
+			<parents>B</parents>
+			<probabilities>0.01 0.99 0.33 0.6699999999999999</probabilities>
+		</cpt>
+	</nodes>
+	<dynamic numslices="10">
+		<cpt id="A" order="1">
+			<parents>A</parents>
+			<probabilities>0.7 0.3 0.7 0.3</probabilities>
+		</cpt>
+		<cpt id="B" order="2">
+			<parents>C</parents>
+			<probabilities>0.19 0.8100000000000001 0.2 0.8 0.52 0.48 0.5 0.5</probabilities>
+		</cpt>
+	</dynamic>
+	<extensions>
+		<genie version="1.0" app="GeNIe 2.0.4535.0" name="Network1" faultnameformat="nodestate">
+			<plate leftwidth="120" rightwidth="120">20 30 620 330</plate>
+			<node id="A">
+				<name>A</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>228 86 262 107</position>
+			</node>
+			<node id="B">
+				<name>B</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>176 141 210 162</position>
+			</node>
+			<node id="C">
+				<name>C</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>221 219 255 240</position>
+			</node>
+		</genie>
+	</extensions>
+</smile>

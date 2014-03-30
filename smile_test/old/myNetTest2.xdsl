@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<smile version="1.0" id="Unnamed" numsamples="1000" discsamples="10000">
+	<nodes>
+		<cpt id="Id_Node1" dynamic="plate">
+			<state id="das" />
+			<state id="jenes" />
+			<probabilities>0.2 0.8</probabilities>
+		</cpt>
+		<cpt id="Node2">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.4 0.98</probabilities>
+		</cpt>
+		<cpt id="Parent1">
+			<state id="ok_p1" />
+			<state id="failure_p1" />
+			<probabilities>0.9 0.1</probabilities>
+		</cpt>
+		<cpt id="Parent2">
+			<state id="ok_p2" />
+			<state id="failure_p2" />
+			<probabilities>0.99 0.01</probabilities>
+		</cpt>
+		<cpt id="Node3">
+			<state id="das3" />
+			<state id="jenes3" />
+			<parents>Parent1 Parent2</parents>
+			<probabilities>0.95 0.05 0.7 0.3 0.8 0.2 0.9 0.1</probabilities>
+		</cpt>
+	</nodes>
+	<dynamic numslices="10">
+	</dynamic>
+	<extensions>
+		<genie version="1.0" app="SMILE Feb 29 2012" name="Unnamed" faultnameformat="nodestate">
+			<plate leftwidth="120" rightwidth="120">20 20 620 320</plate>
+			<node id="Id_Node1">
+				<name>Node1</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="MS Sans Serif" size="8" />
+				<position>-38 -18 38 18</position>
+			</node>
+			<node id="Node2">
+				<name>Node2</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="MS Sans Serif" size="8" />
+				<position>-38 -18 38 18</position>
+			</node>
+			<node id="Parent1">
+				<name>Parent1</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="MS Sans Serif" size="8" />
+				<position>-38 -18 38 18</position>
+			</node>
+			<node id="Parent2">
+				<name>Parent2</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="MS Sans Serif" size="8" />
+				<position>-38 -18 38 18</position>
+			</node>
+			<node id="Node3">
+				<name>Node3</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="MS Sans Serif" size="8" />
+				<position>-38 -18 38 18</position>
+			</node>
+		</genie>
+	</extensions>
+</smile>
